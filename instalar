@@ -12,16 +12,16 @@ me_ubicacion=(
 );
 
 ubicacion_por_defecto=(
-    $LAVA_MASTER_GUNICORN_CONF_FILE
+    $LAVA_MASTER_GUNICORN_CONF_FILE    
     $LAVA_MASTER_SCHEDULER_CONF_FILE
     $LAVA_MASTER_PUBLISHER_CONF_FILE
     $LAVA_APACHE_CONF_FILE
     $LAVA_MASTER_ENV_FILE
-    $LAVA_MASTER_SETTINGS_FILE
+    $LAVA_MASTER_SETTINGS_FILE   
 );
 
 acciones=(
-    "mv -i"
+    "mv"
     "ln -s -f"
 );
 
@@ -35,7 +35,7 @@ function instalar() {
 	#destino-origen
 	accion=${acciones[count]};
 	case $accion in
-	    "mv -i")
+	    "mv")
 		o=(${ubicacion_por_defecto[*]});
 		d=(${me_ubicacion[*]});
 	    ;;
@@ -49,6 +49,7 @@ function instalar() {
 	do
 	    if [ ! -f ${d[count1]} ]; then
 		comando="${acciones[count]}  ${o[count1]} ${d[count1]}";
+		echo $comando
 		$comando
 	    else 
 		echo "Error: Ya existe el fichero en ${d[count1]}"

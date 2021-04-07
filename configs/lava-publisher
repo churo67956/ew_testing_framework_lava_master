@@ -1,1 +1,9 @@
-/root/Documentos/Proyectos/ew_testing_framework_config/lava-publisher
+# Configuration for lava-publisher daemon
+
+# Logging level should be uppercase (DEBUG, INFO, WARNING, ERROR)
+# LOGLEVEL="DEBUG"
+# LOGFILE="/var/log/lava-server/lava-publisher.log"
+
+# Host and port to bind
+# HOST="*"
+# PORT=8001

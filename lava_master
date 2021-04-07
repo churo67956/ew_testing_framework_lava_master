@@ -29,9 +29,9 @@ function lava_orquestador_servicios(){
 }
 #paramos el maestro
 function lava_maestro_parar(){
-    lava_scheduler_parar;
-    lava_publisher_parar;
-    lava_gunicorn_parar;
+    lava_scheduler_parar
+    lava_publisher_parar
+    lava_gunicorn_parar
 }
 #arrancamos el maestro
 function lava_maestro_arrancar(){
