@@ -39,3 +39,13 @@ de los mismos dentro de nuestro repo. Emplenado el comando *ln* vamos a crear lo
 La instalacion por defecto dentro de la rama local
 
 
+*** TODO Habilitar lava para tener acceso desde la land
+La land es 192.169.0.0/24
+**** Modificar el fichero lava-server.conf
+Sustituir las ocurrencias de localhost por la direccion ip del lava-master
+en nuestro caso es la 192.169.0.26.
+**** Modificar el fichero lava-server-gunicorn
+Vamos a realizar el binding sobre la direccion ip 192.168.0.26:8000
+**** Modificar el fichero 00-settings-conf
+Vamos a agregar en 00-settings.yaml en ALLOW_IPS y AUTO_REGISTER 
+nuestra direccion ip y la direccion de red respectivamente.
