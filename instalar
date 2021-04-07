@@ -1,0 +1,79 @@
+# funcion empleada para cargar la configuracion del lava master.
+#Tras lo cual debemos de arrancar mediante lava_master_arrancar
+
+set -e
+me_ubicacion=(
+    $ME_GUNICORN_CONF_FILE
+    $ME_SCHEDULER_CONF_FILE
+    $ME_PUBLISHER_CONF_FILE
+    $ME_APACHE_CONF_FILE
+    $ME_MASTER_ENV_FILE
+    $ME_MASTER_SETTINGS_FILE
+);
+
+ubicacion_por_defecto=(
+    $LAVA_MASTER_GUNICORN_CONF_FILE
+    $LAVA_MASTER_SCHEDULER_CONF_FILE
+    $LAVA_MASTER_PUBLISHER_CONF_FILE
+    $LAVA_APACHE_CONF_FILE
+    $LAVA_MASTER_ENV_FILE
+    $LAVA_MASTER_SETTINGS_FILE
+);
+
+acciones=(
+    "mv -i"
+    "ln -s -f"
+);
+
+function instalar() {
+    #paramos los servicios
+    lava_maestro_parar
+    #copia de seguridad
+    count=0
+    while [ "x${acciones[count]}" != "x" ]
+    do
+	#destino-origen
+	accion=${acciones[count]};
+	case $accion in
+	    "mv -i")
+		o=(${ubicacion_por_defecto[*]});
+		d=(${me_ubicacion[*]});
+	    ;;
+	    "ln -s -f")
+		d=(${ubicacion_por_defecto[*]});
+		o=(${me_ubicacion[*]});
+	    ;;
+	esac
+	count1=0
+	while [ "x${o[count1]}" != "x" ]
+	do
+	    if [ ! -f ${d[count1]} ]; then
+		comando="${acciones[count]}  ${o[count1]} ${d[count1]}";
+		$comando
+	    else 
+		echo "Error: Ya existe el fichero en ${d[count1]}"
+		return 1
+	    fi	   
+	    count1=$(( $count1 + 1 ))
+	done
+	count=$(( $count + 1 ))
+    done
+    #arranca los servicios
+    lava_maestro_arrancar
+}
+
+instalar;
+
+
+
+
+
+
+
+
+
+
+
+
+
+

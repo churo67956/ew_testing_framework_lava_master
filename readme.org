@@ -1,0 +1,40 @@
+* LAVA MASTER
+** LISTADO DE TODOS
+*** DONE Crear una repo en github y clonarloa
+Darle el nombre de ew_testing_lava_master y darle un acceso rapido mediante una variable de ambiente
+EV_PR_EW_LAVA_MASTER
+*** DONE Agregar el readme.org
+Vaya este documento
+*** DONE Crear el fichero .bashrc_bash_lava_master en el repo
+Declarar una serie de funciones, variables y alias para facilitar el manejo del lava_master
+*** DONE Agregar los ficheros de configuracion en el repo 
+Vamos a tener todos los ficheros de configuración dentro del repositorio.
+Vamos a crear una carpeta config y que almacenara los ficheros:
+- lava-scheduler
+- lava-publisher
+- lava-server-gunicorn
+- lava-server.conf
+- env.yaml
+- 00-settings.yaml
+
+Los 3 primeros se encuentran dentro de  /etc/lava-server
+
+**** DONE Si los ficheros existen en el destino
+Comprobamos que los ficheros no existen en el destino si existen finalizar
+y esperar a que el administrador resuelva el problema.
+El destino puede ser tanto el directorio de lava que guarda las configuraciones
+o nuestro directorio de nuestro repo con nuestras configuraciones.
+El segundo de los casos no es habitual puesto que deberiamos tener algunas
+configuraciones en el repo. Emplearlo cuando se parte de cero solo con las configuraciones
+instaladas por lava. 
+**** DONE Si los ficheros no existen en el repo buscarlos en ruta por defecto
+Si los ficheros de configuracion no existen en el repositorio los buscamos 
+en el directorio por defecto, el empleado por lava.
+Para activar esta opcion debemos de agregar la opcion "mv" del codigo instalar
+**** DONE Creamos los links en los directorios esperados por LAVA
+Conocemos las rutas por defecto de los ficheros de configuracion de lava y tambien
+de los mismos dentro de nuestro repo. Emplenado el comando *ln* vamos a crear los links.
+ 
+*** TODO Crear una rama local y realizar el commit
+La instalacion por defecto dentro de la rama local
+*** TODO

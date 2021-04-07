@@ -1,0 +1,102 @@
+
+#Ficheros de configuracion necesarios
+#manipular para hacer que arranque
+
+#orquesta los servicios del master
+function lava_orquestador_servicios(){
+    accion="$1"
+    servicio="$2"
+    comando_start="systemctl restart"
+    comando_stop="systemctl stop"
+    comando_status="systemctl status"
+
+    if [ ! -z "$accion" ]
+    then
+	case $accion in
+       	    parar)
+		$comando_stop $servicio
+		;;
+	    arrancar)
+		$comando_start $servicio;
+		;;  
+	    estado)
+		$comando_status $servicio;
+		;;
+	esac
+    else
+	echo "Accion $1 para el servicio $2 no valida"	
+    fi
+}
+#paramos el maestro
+function lava_maestro_parar(){
+    lava_scheduler_parar;
+    lava_publisher_parar;
+    lava_gunicorn_parar;
+}
+#arrancamos el maestro
+function lava_maestro_arrancar(){
+    lava_gunicorn_arrancar;
+    lava_publisher_arrancar;
+    lava_scheduler_arrancar;
+}
+
+#
+#ALIAS
+#
+
+#orquestar servicios: apache
+alias lava_apache_arrancar="lava_orquestador_servicios arrancar apache2";
+alias lava_apache_parar="lava_orquestador_servicios parar apache2";
+alias lava_apache_estado="lava_orquestador_servicios estado apache2";
+#orquestar servicios: gunicorn
+alias lava_gunicorn_arrancar="lava_orquestador_servicios arrancar lava-server-gunicorn";
+alias lava_gunicorn_parar="lava_orquestador_servicios parar lava-server-gunicorn";
+alias lava_gunicorn_estado="lava_orquestador_servicios estado lava-server-gunicorn";
+#orquetar servicios: publisher
+alias lava_publisher_arrancar="lava_orquestador_servicios arrancar lava-publisher";
+alias lava_publisher_parar="lava_orquestador_servicios parar lava-publisher";
+alias lava_publisher_estado="lava_orquestador_servicios estado lava-publisher";
+#orquetar servicios: scheduler
+alias lava_scheduler_arrancar="lava_orquestador_servicios arrancar lava-scheduler";
+alias lava_scheduler_parar="lava_orquestador_servicios parar lava-scheduler";
+alias lava_scheduler_estado="lava_orquestador_servicios estado lava-scheduler";
+
+#
+#VARIABLES
+#
+export LAVA_MASTER_DIR=/etc/lava-server
+export ME_LAVA_MASTER_DIR=$EV_PR_EW_LAVA_MASTER/configs
+export LAVA_MASTER_GUNICORN_CONF_FILE=$LAVA_MASTER_DIR/lava-server-gunicorn
+export ME_GUNICORN_CONF_FILE=$ME_LAVA_MASTER_DIR/lava-server-gunicorn
+export LAVA_MASTER_PUBLISHER_CONF_FILE=$LAVA_MASTER_DIR/lava-publisher
+export ME_PUBLISHER_CONF_FILE=$ME_LAVA_MASTER_DIR/lava-publisher
+export LAVA_MASTER_SCHEDULER_CONF_FILE=$LAVA_MASTER_DIR/lava-scheduler
+export ME_SCHEDULER_CONF_FILE=$ME_LAVA_MASTER_DIR/lava-scheduler
+export LAVA_APACHE_CONF_FILE=/etc/apache2/sites-enabled/lava-server.conf
+export ME_APACHE_CONF_FILE=$ME_LAVA_MASTER_DIR/lava-server.conf
+#ficheros de configuracion de la instancia
+export LAVA_MASTER_ENV_FILE=$LAVA_MASTER_DIR/env.yaml
+
+export ME_MASTER_ENV_FILE=$ME_LAVA_MASTER_DIR/env.yaml
+
+export LAVA_MASTER_SETTINGS_DIR=$LAVA_MASTER_DIR/settings.d
+
+export ME_MASTER_SETTINGS_DIR=$ME_LAVA_MASTER_DIR/settings.d
+
+export LAVA_MASTER_SETTINGS_FILE=$LAVA_MASTER_SETTINGS_DIR/00-settings.yaml
+
+export ME_MASTER_SETTINGS_FILE=$ME_LAVA_MASTER_DIR/00-settings.yaml
+#fichero de servicios
+
+
+export LAVA_SERVER_GUNICORN_SERVICE=/lib/systemd/system/lava-server-gunicorn.service
+export LAVA_SCHEDULER_SERVICE=/lib/systemd/system/lava-scheduler.service
+export LAVA_PUBLISHER_SERVICE=/lib/systemd/system/lava-publisher.service
+export APACHE_SERVICE=/lib/systemd/system/apache2.service
+
+
+export -f lava_orquestador_servicios;
+export -f lava_maestro_arrancar;
+export -f lava_maestro_parar;
+
+
