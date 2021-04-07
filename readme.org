@@ -35,6 +35,7 @@ Para activar esta opcion debemos de agregar la opcion "mv" del codigo instalar
 Conocemos las rutas por defecto de los ficheros de configuracion de lava y tambien
 de los mismos dentro de nuestro repo. Emplenado el comando *ln* vamos a crear los links.
  
-*** TODO Crear una rama local y realizar el commit
+*** DONE Crear una rama local y realizar el commit
 La instalacion por defecto dentro de la rama local
-*** TODO
+
+
